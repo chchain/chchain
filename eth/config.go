@@ -37,13 +37,13 @@ import (
 var DefaultConfig = Config{
 	SyncMode: downloader.FastSync,
 	Ethash: ethash.Config{
-		CacheDir:       "ethash",
+		CacheDir:       "clique",
 		CachesInMem:    2,
 		CachesOnDisk:   3,
 		DatasetsInMem:  1,
 		DatasetsOnDisk: 2,
 	},
-	NetworkId:          1,
+	NetworkId:          37020,
 	LightPeers:         100,
 	UltraLightFraction: 75,
 	DatabaseCache:      512,

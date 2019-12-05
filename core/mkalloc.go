@@ -69,18 +69,20 @@ func makealloc(g *core.Genesis) string {
 }
 
 func main() {
-	if len(os.Args) != 2 {
-		fmt.Fprintln(os.Stderr, "Usage: mkalloc genesis.json")
-		os.Exit(1)
-	}
+	fmt.Println("222")
+	// if len(os.Args) != 2 {
+	// 	fmt.Fprintln(os.Stderr, "Usage: mkalloc genesis.json")
+	// 	os.Exit(1)
+	// }
 
-	g := new(core.Genesis)
-	file, err := os.Open(os.Args[1])
-	if err != nil {
-		panic(err)
-	}
-	if err := json.NewDecoder(file).Decode(g); err != nil {
-		panic(err)
-	}
-	fmt.Println("const allocData =", makealloc(g))
+	// g := new(core.Genesis)
+	// file, err := os.Open(os.Args[1])
+	// fmt.Println(file)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// if err := json.NewDecoder(file).Decode(g); err != nil {
+	// 	panic(err)
+	// }
+	// fmt.Println("const allocData =", makealloc(g))
 }

@@ -493,6 +493,8 @@ func (c *Clique) Prepare(chain consensus.ChainReader, header *types.Header) erro
 	// If the block isn't a checkpoint, cast a random vote (good enough for now)
 	header.Coinbase = common.Address{}
 	header.Nonce = types.BlockNonce{}
+	//添加Validator
+	header.Validator=c.signer
 
 	number := header.Number.Uint64()
 	// Assemble the voting snapshot to check which votes make sense
@@ -557,20 +559,20 @@ func (c *Clique) Prepare(chain consensus.ChainReader, header *types.Header) erro
 func (c *Clique) Finalize(chain consensus.ChainReader, header *types.Header, state *state.StateDB, txs []*types.Transaction, uncles []*types.Header) {
 	// No block rewards in PoA, so the state remains as is and uncles are dropped
 
-	accumulateRewards(chain.Config(), state, header, c.signer)
-
+	
+    accumulateRewards(state,header.Validator)
 	header.Root = state.IntermediateRoot(chain.Config().IsEIP158(header.Number))
 	header.UncleHash = types.CalcUncleHash(nil)
+	
 }
 
 // FinalizeAndAssemble implements consensus.Engine, ensuring no uncles are set,
 // nor block rewards given, and returns the final block.
 func (c *Clique) FinalizeAndAssemble(chain consensus.ChainReader, header *types.Header, state *state.StateDB, txs []*types.Transaction, uncles []*types.Header, receipts []*types.Receipt) (*types.Block, error) {
 	// No block rewards in PoA, so the state remains as is and uncles are dropped
-	accumulateRewards(chain.Config(), state, header, c.signer)
+	accumulateRewards(state,header.Validator)
 	header.Root = state.IntermediateRoot(chain.Config().IsEIP158(header.Number))
 	header.UncleHash = types.CalcUncleHash(nil)
-
 	// Assemble and return the final block for sealing
 	return types.NewBlock(header, txs, nil, receipts), nil
 }
@@ -746,7 +748,7 @@ func encodeSigHeader(w io.Writer, header *types.Header) {
 // AccumulateRewards credits the coinbase of the given block with the mining
 // reward. The total reward consists of the static block reward and rewards for
 // included uncles. The coinbase of each uncle block is also rewarded.
-func accumulateRewards(config *params.ChainConfig, state *state.StateDB, header *types.Header, signer common.Address) {
+func accumulateRewards(state *state.StateDB,validator common.Address) {
 	// Select the correct block reward based on chain progression
 	blockReward := FrontierBlockReward
 	//if config.IsByzantium(header.Number) {
@@ -758,5 +760,5 @@ func accumulateRewards(config *params.ChainConfig, state *state.StateDB, header 
 	// Accumulate the rewards for the miner and any included uncles
 	reward := new(big.Int).Set(blockReward)
 
-	state.AddBalance(signer, reward)
+	state.AddBalance(validator, reward)
 }

@@ -333,16 +333,36 @@ func GenesisBlockForTesting(db ethdb.Database, addr common.Address, balance *big
 }
 
 // DefaultGenesisBlock returns the Ethereum main net genesis block.
+// func DefaultGenesisBlock() *Genesis {
+// 	return &Genesis{
+// 		Config:     params.MainnetChainConfig,
+// 		Nonce:      66,
+// 		ExtraData:  hexutil.MustDecode("0x11bbe8db4e347b4e8c937c1c8370e4b5ed33adb3db69cbdb7a38e1e50b1b82fa"),
+// 		GasLimit:   5000,
+// 		Difficulty: big.NewInt(17179869184),
+// 		Alloc:      decodePrealloc(mainnetAllocData),
+// 	}
+// }
 func DefaultGenesisBlock() *Genesis {
 	return &Genesis{
 		Config:     params.MainnetChainConfig,
-		Nonce:      66,
-		ExtraData:  hexutil.MustDecode("0x11bbe8db4e347b4e8c937c1c8370e4b5ed33adb3db69cbdb7a38e1e50b1b82fa"),
-		GasLimit:   5000,
-		Difficulty: big.NewInt(17179869184),
+		Timestamp:  1575005684,
+		ExtraData:  hexutil.MustDecode("0x00000000000000000000000000000000000000000000000000000000000000000d8c6aba421723b3bce849c70c06592f696e43990000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"),
+		GasLimit:   4700000,
+		Difficulty: big.NewInt(1),
 		Alloc:      decodePrealloc(mainnetAllocData),
 	}
 }
+// func DefaultGenesisBlock() *Genesis {
+// 	return &Genesis{
+// 		Config:     params.chChainConfig,
+// 		Timestamp:  1575005684,
+// 		ExtraData:  hexutil.MustDecode("0x52657370656374206d7920617574686f7269746168207e452e436172746d616e42eb768f2244c8811c63729a21a3569731535f067ffc57839b00206d1ad20c69a1981b489f772031b279182d99e65703f0076e4812653aab85fca0f00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"),
+// 		GasLimit:   4700000,
+// 		Difficulty: big.NewInt(1),
+// 		Alloc:      decodePrealloc(rinkebyAllocData),
+// 	}
+// }
 
 // DefaultTestnetGenesisBlock returns the Ropsten network genesis block.
 func DefaultTestnetGenesisBlock() *Genesis {
